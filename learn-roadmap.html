@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>뭐든 배워봐 🎯 학습 로드맵 생성기</title>
+<title>뭐든 배워봐 🎯 학습 로드맵</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;700&display=swap');
 
@@ -36,7 +36,6 @@ body {
   min-height: 100vh;
 }
 
-/* HEADER */
 header {
   background: var(--ink);
   padding: 40px 24px 32px;
@@ -49,11 +48,7 @@ header {
   gap: 10px;
   margin-bottom: 10px;
 }
-.logo-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--accent);
-}
+.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
 .logo-text {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.75rem;
@@ -69,18 +64,9 @@ header h1 {
   line-height: 1.15;
   letter-spacing: -1px;
 }
-header h1 em {
-  font-style: normal;
-  color: var(--accent);
-  position: relative;
-}
-header p {
-  color: #888;
-  font-size: 0.9rem;
-  margin-top: 10px;
-}
+header h1 em { font-style: normal; color: var(--accent); }
+header p { color: #888; font-size: 0.9rem; margin-top: 10px; }
 
-/* SEARCH BOX */
 .search-wrap {
   max-width: 600px;
   margin: -24px auto 0;
@@ -94,11 +80,7 @@ header p {
   box-shadow: 0 8px 32px rgba(0,0,0,0.12);
   padding: 20px 20px 16px;
 }
-.search-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
+.search-row { display: flex; gap: 10px; margin-bottom: 12px; }
 .topic-input {
   flex: 1;
   background: var(--card);
@@ -131,11 +113,7 @@ header p {
 .go-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
 .go-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
 
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag {
   background: var(--card);
   border: 1px solid var(--border);
@@ -148,23 +126,14 @@ header p {
 }
 .tag:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
 
-/* RESULT */
 #result {
   max-width: 720px;
   margin: 32px auto 60px;
   padding: 0 20px;
 }
 
-.loading-wrap {
-  text-align: center;
-  padding: 60px 0;
-}
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
-}
+.loading-wrap { text-align: center; padding: 60px 0; }
+.dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
 .dot {
   width: 10px; height: 10px;
   background: var(--accent);
@@ -179,22 +148,10 @@ header p {
 }
 .loading-wrap p { color: var(--muted); font-size: 0.9rem; }
 
-/* ROADMAP HEADER */
-.roadmap-title {
-  font-size: 1.4rem;
-  font-weight: 900;
-  margin-bottom: 6px;
-  letter-spacing: -0.5px;
-}
-.roadmap-sub {
-  color: var(--muted);
-  font-size: 0.88rem;
-  margin-bottom: 28px;
-}
+.roadmap-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.5px; }
+.roadmap-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 28px; }
 
-/* LEVEL SECTION */
 .level-section { margin-bottom: 32px; }
-
 .level-header {
   display: flex;
   align-items: center;
@@ -216,14 +173,9 @@ header p {
 .lv3 .level-badge { background: var(--lv3-bg); border: 1px solid var(--lv3-border); color: var(--lv3); }
 
 .level-name { font-size: 1.05rem; font-weight: 700; }
-.level-desc { color: var(--muted); font-size: 0.83rem; margin-left: auto; }
+.level-tip { color: var(--muted); font-size: 0.83rem; margin-left: auto; }
 
-/* VIDEO CARD */
-.video-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
+.video-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
 .video-card {
   background: var(--surface);
@@ -256,19 +208,11 @@ header p {
   overflow: hidden;
   background: var(--card);
 }
-.thumb-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .thumb-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
   font-size: 1.6rem;
-  background: var(--card);
 }
 .duration-badge {
   position: absolute;
@@ -305,7 +249,6 @@ header p {
   padding: 2px 7px;
 }
 
-/* ERROR */
 .error-box {
   background: #fef2f2;
   border: 1px solid #fecaca;
@@ -333,20 +276,21 @@ header p {
   <div class="search-box">
     <div class="search-row">
       <input class="topic-input" id="topicInput" type="text"
-        placeholder="배우고 싶은 거 입력해봐요 (예: 낚시, 주식, 드럼...)"
+        placeholder="배우고 싶은 거 입력 (예: 낚시, 주식, 드럼...)"
         onkeydown="if(event.key==='Enter') go()">
       <button class="go-btn" id="goBtn" onclick="go()">로드맵 만들기</button>
     </div>
     <div class="tag-row">
-      <span class="tag" onclick="setTopic('낚시 입문')">🎣 낚시</span>
+      <span class="tag" onclick="setTopic('낚시')">🎣 낚시</span>
       <span class="tag" onclick="setTopic('주식투자')">📈 주식</span>
       <span class="tag" onclick="setTopic('다이어트 운동')">💪 다이어트</span>
-      <span class="tag" onclick="setTopic('기타 독학')">🎸 기타</span>
-      <span class="tag" onclick="setTopic('파이썬 프로그래밍')">🐍 파이썬</span>
-      <span class="tag" onclick="setTopic('요리 기초')">🍳 요리</span>
-      <span class="tag" onclick="setTopic('영어 회화')">💬 영어</span>
-      <span class="tag" onclick="setTopic('사진 촬영')">📷 사진</span>
-      <span class="tag" onclick="setTopic('드럼 독학')">🥁 드럼</span>
+      <span class="tag" onclick="setTopic('기타')">🎸 기타</span>
+      <span class="tag" onclick="setTopic('파이썬')">🐍 파이썬</span>
+      <span class="tag" onclick="setTopic('요리')">🍳 요리</span>
+      <span class="tag" onclick="setTopic('영어회화')">💬 영어</span>
+      <span class="tag" onclick="setTopic('사진촬영')">📷 사진</span>
+      <span class="tag" onclick="setTopic('드럼')">🥁 드럼</span>
+      <span class="tag" onclick="setTopic('골프')">⛳ 골프</span>
     </div>
   </div>
 </div>
@@ -355,6 +299,31 @@ header p {
 
 <script>
 const YT_API_KEY = 'AIzaSyChybYWjTNWbbr1-CeniouFL0qgLUhGGcE';
+
+// 레벨별 키워드 조합 템플릿
+const LEVELS = [
+  {
+    key: 'lv1',
+    badge: 'BEGINNER',
+    name: '초급',
+    tip: '아무것도 몰라도 OK',
+    suffixes: ['입문', '초보 기초', '처음 시작', '왕초보'],
+  },
+  {
+    key: 'lv2',
+    badge: 'INTERMEDIATE',
+    name: '중급',
+    tip: '기초 끝낸 사람',
+    suffixes: ['중급', '실력 향상', '심화', '테크닉'],
+  },
+  {
+    key: 'lv3',
+    badge: 'ADVANCED',
+    name: '고급',
+    tip: '제대로 파고들기',
+    suffixes: ['고급', '고수', '실전', '프로'],
+  },
+];
 
 function setTopic(t) {
   document.getElementById('topicInput').value = t;
@@ -377,7 +346,7 @@ function fmtViews(n) {
   return `${n}회`;
 }
 
-async function fetchYouTube(query, maxResults = 4) {
+async function fetchVideos(query, maxResults = 4) {
   const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&maxResults=${maxResults}&relevanceLanguage=ko&key=${YT_API_KEY}`;
   const res = await fetch(searchUrl);
   const data = await res.json();
@@ -405,122 +374,61 @@ async function fetchYouTube(query, maxResults = 4) {
   });
 }
 
-async function getQueriesFromAI(topic) {
-  const prompt = `당신은 학습 큐레이터입니다.
-"${topic}"을(를) 배우려는 한국인 입문자를 위한 유튜브 검색 쿼리를 JSON으로만 응답하세요.
-마크다운, 설명, 기타 텍스트 없이 JSON만 출력하세요.
-
-형식:
-{
-  "topicKo": "정제된 주제명(예: 낚시 입문)",
-  "desc": "이 로드맵으로 배울 수 있는 것을 한 줄로",
-  "levels": [
-    {
-      "level": "초급",
-      "badge": "BEGINNER",
-      "desc": "이 단계에서 배우는 것",
-      "queries": ["검색어1", "검색어2", "검색어3"]
-    },
-    {
-      "level": "중급",
-      "badge": "INTERMEDIATE",
-      "desc": "이 단계에서 배우는 것",
-      "queries": ["검색어1", "검색어2", "검색어3"]
-    },
-    {
-      "level": "고급",
-      "badge": "ADVANCED",
-      "desc": "이 단계에서 배우는 것",
-      "queries": ["검색어1", "검색어2", "검색어3"]
-    }
-  ]
-}
-
-각 검색어는 유튜브에서 실제로 잘 검색될 만한 구체적인 한국어 쿼리로 작성하세요.`;
-
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      messages: [{ role: "user", content: prompt }]
-    })
-  });
-  const data = await res.json();
-  const text = data.content.map(i => i.text||'').join('').replace(/```json|```/g,'').trim();
-  return JSON.parse(text);
-}
-
 async function go() {
   const topic = document.getElementById('topicInput').value.trim();
   if (!topic) { document.getElementById('topicInput').focus(); return; }
 
   const btn = document.getElementById('goBtn');
   btn.disabled = true;
-  btn.textContent = '생성 중...';
+  btn.textContent = '검색 중...';
 
   const result = document.getElementById('result');
   result.innerHTML = `<div class="loading-wrap">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <p>AI가 로드맵을 설계하고 유튜브 영상을 찾고 있어요...</p>
+    <p>${topic} 유튜브 영상을 찾고 있어요...</p>
   </div>`;
 
   try {
-    // 1) AI로 검색어 생성
-    const roadmap = await getQueriesFromAI(topic);
-
-    const levelClasses = ['lv1','lv2','lv3'];
-
-    // 2) 각 레벨별 유튜브 영상 병렬 fetch
+    // 각 레벨별로 랜덤 suffix 하나 골라서 검색
     const videoResults = await Promise.all(
-      roadmap.levels.map(lv =>
-        Promise.all(lv.queries.map(q => fetchYouTube(q, 2)))
-      )
+      LEVELS.map(lv => {
+        const suffix = lv.suffixes[Math.floor(Math.random() * lv.suffixes.length)];
+        return fetchVideos(`${topic} ${suffix}`, 4);
+      })
     );
 
-    // 렌더
     let html = `
-      <div class="roadmap-title">📚 ${roadmap.topicKo} 학습 로드맵</div>
-      <div class="roadmap-sub">${roadmap.desc}</div>
+      <div class="roadmap-title">📚 "${topic}" 학습 로드맵</div>
+      <div class="roadmap-sub">초급부터 고급까지, 유튜브로 독학 완성!</div>
     `;
 
-    roadmap.levels.forEach((lv, li) => {
-      const cls = levelClasses[li] || 'lv1';
-      // 각 쿼리별 첫 번째 영상만 선택, 중복 제거
-      const seen = new Set();
-      const videos = [];
-      videoResults[li].forEach(group => {
-        group.forEach(v => {
-          if (!seen.has(v.id) && videos.length < 4) {
-            seen.add(v.id);
-            videos.push(v);
-          }
-        });
-      });
+    LEVELS.forEach((lv, li) => {
+      const videos = videoResults[li];
+      const suffix = lv.suffixes[0];
 
       html += `
-        <div class="level-section ${cls}">
+        <div class="level-section ${lv.key}">
           <div class="level-header">
             <span class="level-badge">${lv.badge}</span>
-            <span class="level-name">${lv.level}</span>
-            <span class="level-desc">${lv.desc}</span>
+            <span class="level-name">${lv.name}</span>
+            <span class="level-tip">${lv.tip}</span>
           </div>
           <div class="video-grid">
-            ${videos.map((v, vi) => `
+            ${videos.length === 0
+              ? `<div class="error-box">영상을 찾지 못했어요 😢</div>`
+              : videos.map((v, vi) => `
               <a class="video-card" href="${v.url}" target="_blank" rel="noopener" style="animation-delay:${vi*60}ms">
                 <div class="thumb-wrap">
                   ${v.thumb
                     ? `<img src="${v.thumb}" alt="" loading="lazy">`
-                    : `<div class="thumb-placeholder">▶️</div>`
-                  }
+                    : `<div class="thumb-placeholder">▶️</div>`}
                   ${v.duration ? `<span class="duration-badge">${v.duration}</span>` : ''}
                 </div>
                 <div class="video-info">
                   <div class="video-title">${v.title}</div>
                   <div class="video-channel">📺 ${v.channel}</div>
                   <div class="video-meta">${v.views ? `조회 ${v.views}` : ''}</div>
-                  <div class="video-tag">${lv.level}</div>
+                  <div class="video-tag">${lv.name}</div>
                 </div>
               </a>
             `).join('')}
