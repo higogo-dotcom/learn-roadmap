@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뭐든 배워봐 🎯 학습 로드맵 생성기</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;700&display=swap');
+
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --card: #f0ede8;
+  --border: #e0dbd2;
+  --ink: #1a1612;
+  --muted: #8a8278;
+  --accent: #2563eb;
+  --accent-light: #eff6ff;
+  --lv1: #16a34a;
+  --lv2: #d97706;
+  --lv3: #dc2626;
+  --lv1-bg: #f0fdf4;
+  --lv2-bg: #fffbeb;
+  --lv3-bg: #fef2f2;
+  --lv1-border: #bbf7d0;
+  --lv2-border: #fde68a;
+  --lv3-border: #fecaca;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans KR', sans-serif;
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--ink);
+  padding: 40px 24px 32px;
+  text-align: center;
+}
+.logo-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.logo-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.logo-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+header h1 {
+  font-size: clamp(1.7rem, 6vw, 2.8rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+header h1 em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+}
+header p {
+  color: #888;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+/* SEARCH BOX */
+.search-wrap {
+  max-width: 600px;
+  margin: -24px auto 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+}
+.search-box {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 20px 20px 16px;
+}
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.topic-input {
+  flex: 1;
+  background: var(--card);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  padding: 13px 16px;
+  transition: border-color 0.2s;
+}
+.topic-input:focus { border-color: var(--accent); background: #fff; }
+.topic-input::placeholder { color: var(--muted); font-weight: 400; }
+
+.go-btn {
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 13px 22px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.go-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+.go-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 5px 12px;
+  transition: all 0.15s;
+}
+.tag:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+/* RESULT */
+#result {
+  max-width: 720px;
+  margin: 32px auto 60px;
+  padding: 0 20px;
+}
+
+.loading-wrap {
+  text-align: center;
+  padding: 60px 0;
+}
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.dot {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: bounce 1s ease-in-out infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce {
+  0%,100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-8px); opacity: 1; }
+}
+.loading-wrap p { color: var(--muted); font-size: 0.9rem; }
+
+/* ROADMAP HEADER */
+.roadmap-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.roadmap-sub {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 28px;
+}
+
+/* LEVEL SECTION */
+.level-section { margin-bottom: 32px; }
+
+.level-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.level-badge {
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  text-transform: uppercase;
+}
+.lv1 .level-badge { background: var(--lv1-bg); border: 1px solid var(--lv1-border); color: var(--lv1); }
+.lv2 .level-badge { background: var(--lv2-bg); border: 1px solid var(--lv2-border); color: var(--lv2); }
+.lv3 .level-badge { background: var(--lv3-bg); border: 1px solid var(--lv3-border); color: var(--lv3); }
+
+.level-name { font-size: 1.05rem; font-weight: 700; }
+.level-desc { color: var(--muted); font-size: 0.83rem; margin-left: auto; }
+
+/* VIDEO CARD */
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.video-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s;
+  animation: fadeUp 0.3s ease both;
+}
+.video-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.1);
+  transform: translateY(-1px);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.thumb-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 120px;
+  height: 68px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--card);
+}
+.thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: var(--card);
+}
+.duration-badge {
+  position: absolute;
+  bottom: 4px; right: 4px;
+  background: rgba(0,0,0,0.8);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 5px;
+}
+
+.video-info { flex: 1; min-width: 0; }
+.video-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.video-channel { font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; }
+.video-meta { font-size: 0.75rem; color: #bbb; }
+.video-tag {
+  display: inline-block;
+  background: var(--accent-light);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-top: 6px;
+  padding: 2px 7px;
+}
+
+/* ERROR */
+.error-box {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #dc2626;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-line">
+    <div class="logo-dot"></div>
+    <span class="logo-text">Learning Roadmap</span>
+    <div class="logo-dot"></div>
+  </div>
+  <h1>뭐든 <em>배워봐</em> 🎯</h1>
+  <p>주제를 입력하면 초급 → 중급 → 고급 유튜브 로드맵을 바로 뽑아드려요</p>
+</header>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <div class="search-row">
+      <input class="topic-input" id="topicInput" type="text"
+        placeholder="배우고 싶은 거 입력해봐요 (예: 낚시, 주식, 드럼...)"
+        onkeydown="if(event.key==='Enter') go()">
+      <button class="go-btn" id="goBtn" onclick="go()">로드맵 만들기</button>
+    </div>
+    <div class="tag-row">
+      <span class="tag" onclick="setTopic('낚시 입문')">🎣 낚시</span>
+      <span class="tag" onclick="setTopic('주식투자')">📈 주식</span>
+      <span class="tag" onclick="setTopic('다이어트 운동')">💪 다이어트</span>
+      <span class="tag" onclick="setTopic('기타 독학')">🎸 기타</span>
+      <span class="tag" onclick="setTopic('파이썬 프로그래밍')">🐍 파이썬</span>
+      <span class="tag" onclick="setTopic('요리 기초')">🍳 요리</span>
+      <span class="tag" onclick="setTopic('영어 회화')">💬 영어</span>
+      <span class="tag" onclick="setTopic('사진 촬영')">📷 사진</span>
+      <span class="tag" onclick="setTopic('드럼 독학')">🥁 드럼</span>
+    </div>
+  </div>
+</div>
+
+<div id="result"></div>
+
+<script>
+const YT_API_KEY = 'AIzaSyChybYWjTNWbbr1-CeniouFL0qgLUhGGcE';
+
+function setTopic(t) {
+  document.getElementById('topicInput').value = t;
+  go();
+}
+
+function parseDuration(iso) {
+  if (!iso) return '';
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!m) return '';
+  const h = parseInt(m[1]||0), min = parseInt(m[2]||0), s = parseInt(m[3]||0);
+  if (h > 0) return `${h}:${String(min).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return `${min}:${String(s).padStart(2,'0')}`;
+}
+
+function fmtViews(n) {
+  n = parseInt(n||0);
+  if (n >= 10000) return `${Math.floor(n/10000)}만회`;
+  if (n >= 1000) return `${Math.floor(n/1000)}천회`;
+  return `${n}회`;
+}
+
+async function fetchYouTube(query, maxResults = 4) {
+  const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&maxResults=${maxResults}&relevanceLanguage=ko&key=${YT_API_KEY}`;
+  const res = await fetch(searchUrl);
+  const data = await res.json();
+  if (!data.items || data.items.length === 0) return [];
+
+  const ids = data.items.map(i => i.id.videoId).join(',');
+  const detailUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${ids}&key=${YT_API_KEY}`;
+  const dRes = await fetch(detailUrl);
+  const dData = await dRes.json();
+  const detailMap = {};
+  (dData.items||[]).forEach(v => detailMap[v.id] = v);
+
+  return data.items.map(item => {
+    const vid = item.id.videoId;
+    const detail = detailMap[vid] || {};
+    return {
+      id: vid,
+      title: item.snippet.title,
+      channel: item.snippet.channelTitle,
+      thumb: item.snippet.thumbnails?.medium?.url || '',
+      duration: parseDuration(detail.contentDetails?.duration),
+      views: fmtViews(detail.statistics?.viewCount),
+      url: `https://www.youtube.com/watch?v=${vid}`
+    };
+  });
+}
+
+async function getQueriesFromAI(topic) {
+  const prompt = `당신은 학습 큐레이터입니다.
+"${topic}"을(를) 배우려는 한국인 입문자를 위한 유튜브 검색 쿼리를 JSON으로만 응답하세요.
+마크다운, 설명, 기타 텍스트 없이 JSON만 출력하세요.
+
+형식:
+{
+  "topicKo": "정제된 주제명(예: 낚시 입문)",
+  "desc": "이 로드맵으로 배울 수 있는 것을 한 줄로",
+  "levels": [
+    {
+      "level": "초급",
+      "badge": "BEGINNER",
+      "desc": "이 단계에서 배우는 것",
+      "queries": ["검색어1", "검색어2", "검색어3"]
+    },
+    {
+      "level": "중급",
+      "badge": "INTERMEDIATE",
+      "desc": "이 단계에서 배우는 것",
+      "queries": ["검색어1", "검색어2", "검색어3"]
+    },
+    {
+      "level": "고급",
+      "badge": "ADVANCED",
+      "desc": "이 단계에서 배우는 것",
+      "queries": ["검색어1", "검색어2", "검색어3"]
+    }
+  ]
+}
+
+각 검색어는 유튜브에서 실제로 잘 검색될 만한 구체적인 한국어 쿼리로 작성하세요.`;
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+  const data = await res.json();
+  const text = data.content.map(i => i.text||'').join('').replace(/```json|```/g,'').trim();
+  return JSON.parse(text);
+}
+
+async function go() {
+  const topic = document.getElementById('topicInput').value.trim();
+  if (!topic) { document.getElementById('topicInput').focus(); return; }
+
+  const btn = document.getElementById('goBtn');
+  btn.disabled = true;
+  btn.textContent = '생성 중...';
+
+  const result = document.getElementById('result');
+  result.innerHTML = `<div class="loading-wrap">
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <p>AI가 로드맵을 설계하고 유튜브 영상을 찾고 있어요...</p>
+  </div>`;
+
+  try {
+    // 1) AI로 검색어 생성
+    const roadmap = await getQueriesFromAI(topic);
+
+    const levelClasses = ['lv1','lv2','lv3'];
+
+    // 2) 각 레벨별 유튜브 영상 병렬 fetch
+    const videoResults = await Promise.all(
+      roadmap.levels.map(lv =>
+        Promise.all(lv.queries.map(q => fetchYouTube(q, 2)))
+      )
+    );
+
+    // 렌더
+    let html = `
+      <div class="roadmap-title">📚 ${roadmap.topicKo} 학습 로드맵</div>
+      <div class="roadmap-sub">${roadmap.desc}</div>
+    `;
+
+    roadmap.levels.forEach((lv, li) => {
+      const cls = levelClasses[li] || 'lv1';
+      // 각 쿼리별 첫 번째 영상만 선택, 중복 제거
+      const seen = new Set();
+      const videos = [];
+      videoResults[li].forEach(group => {
+        group.forEach(v => {
+          if (!seen.has(v.id) && videos.length < 4) {
+            seen.add(v.id);
+            videos.push(v);
+          }
+        });
+      });
+
+      html += `
+        <div class="level-section ${cls}">
+          <div class="level-header">
+            <span class="level-badge">${lv.badge}</span>
+            <span class="level-name">${lv.level}</span>
+            <span class="level-desc">${lv.desc}</span>
+          </div>
+          <div class="video-grid">
+            ${videos.map((v, vi) => `
+              <a class="video-card" href="${v.url}" target="_blank" rel="noopener" style="animation-delay:${vi*60}ms">
+                <div class="thumb-wrap">
+                  ${v.thumb
+                    ? `<img src="${v.thumb}" alt="" loading="lazy">`
+                    : `<div class="thumb-placeholder">▶️</div>`
+                  }
+                  ${v.duration ? `<span class="duration-badge">${v.duration}</span>` : ''}
+                </div>
+                <div class="video-info">
+                  <div class="video-title">${v.title}</div>
+                  <div class="video-channel">📺 ${v.channel}</div>
+                  <div class="video-meta">${v.views ? `조회 ${v.views}` : ''}</div>
+                  <div class="video-tag">${lv.level}</div>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    result.innerHTML = html;
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch(e) {
+    result.innerHTML = `<div class="error-box">⚠️ 오류가 발생했어요.<br><small>${e.message}</small></div>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '로드맵 만들기';
+}
+</script>
+</body>
+</html>
