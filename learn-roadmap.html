@@ -346,7 +346,8 @@ function fmtViews(n) {
   return `${n}회`;
 }
 
-async function fetchVideos(query, maxResults = 4) {
+async function fetchVideos(query, maxResults = 8) {
+  // 넉넉하게 가져와서 좋아요/조회수로 정렬 후 상위 4개만
   const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&maxResults=${maxResults}&relevanceLanguage=ko&key=${YT_API_KEY}`;
   const res = await fetch(searchUrl);
   const data = await res.json();
@@ -359,19 +360,28 @@ async function fetchVideos(query, maxResults = 4) {
   const detailMap = {};
   (dData.items||[]).forEach(v => detailMap[v.id] = v);
 
-  return data.items.map(item => {
+  const videos = data.items.map(item => {
     const vid = item.id.videoId;
     const detail = detailMap[vid] || {};
+    const views = parseInt(detail.statistics?.viewCount || 0);
+    const likes = parseInt(detail.statistics?.likeCount || 0);
+    // 점수 = 조회수 70% + 좋아요수 30% 가중치
+    const score = views * 0.7 + likes * 0.3;
     return {
       id: vid,
       title: item.snippet.title,
       channel: item.snippet.channelTitle,
       thumb: item.snippet.thumbnails?.medium?.url || '',
       duration: parseDuration(detail.contentDetails?.duration),
-      views: fmtViews(detail.statistics?.viewCount),
+      views: fmtViews(views),
+      likes: likes,
+      score,
       url: `https://www.youtube.com/watch?v=${vid}`
     };
   });
+
+  // 점수 높은 순 정렬 후 상위 4개
+  return videos.sort((a, b) => b.score - a.score).slice(0, 4);
 }
 
 async function go() {
@@ -427,7 +437,7 @@ async function go() {
                 <div class="video-info">
                   <div class="video-title">${v.title}</div>
                   <div class="video-channel">📺 ${v.channel}</div>
-                  <div class="video-meta">${v.views ? `조회 ${v.views}` : ''}</div>
+                  <div class="video-meta">${v.views ? `조회 ${v.views}` : ''} ${v.likes ? `· 👍 ${fmtViews(v.likes)}` : ''}</div>
                   <div class="video-tag">${lv.name}</div>
                 </div>
               </a>
